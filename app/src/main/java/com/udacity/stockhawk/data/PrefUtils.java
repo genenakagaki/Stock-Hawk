@@ -88,4 +88,23 @@ public final class PrefUtils {
         editor.apply();
     }
 
+    public static void setDataUpToDate(Context context, boolean upToDate) {
+        String key = context.getString(R.string.pref_data_up_to_date);
+
+        SharedPreferences.Editor editor = PreferenceManager
+                .getDefaultSharedPreferences(context)
+                .edit();
+
+        editor.putBoolean(key, upToDate)
+                .apply();
+    }
+
+    public static boolean isDataUpToDate(Context context) {
+        String key = context.getString(R.string.pref_data_up_to_date);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        return prefs.getBoolean(key, true);
+    }
+
 }

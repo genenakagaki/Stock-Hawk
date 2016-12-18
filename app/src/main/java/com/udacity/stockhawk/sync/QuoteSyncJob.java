@@ -71,7 +71,6 @@ public final class QuoteSyncJob {
             while (iterator.hasNext()) {
                 String symbol = iterator.next();
 
-
                 Stock stock = quotes.get(symbol);
                 StockQuote quote = stock.getQuote();
 
@@ -110,11 +109,15 @@ public final class QuoteSyncJob {
                             Contract.Quote.URI,
                             quoteCVs.toArray(new ContentValues[quoteCVs.size()]));
 
-            Intent dataUpdatedIntent = new Intent(ACTION_DATA_UPDATED);
+            Intent dataUpdatedIntent = new Intent(ACTION_DATA_UPDATED)
+                    .setPackage(context.getPackageName());
             context.sendBroadcast(dataUpdatedIntent);
+
+            PrefUtils.setDataUpToDate(context, true);
 
         } catch (IOException exception) {
             Timber.e(exception, "Error fetching stock quotes");
+            PrefUtils.setDataUpToDate(context, false);
         }
     }
 
